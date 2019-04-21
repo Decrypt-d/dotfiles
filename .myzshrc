@@ -1,0 +1,53 @@
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=1500
+SAVEHIST=1500
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+# End of lines configured by zsh-newuser-install
+
+#PowerLevel9k Customization
+POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
+POWERLEVEL9K_PROMPT_ON_NEWLINE=true
+POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="\uE602 "
+POWERLEVEL9K_DISABLE_RPROMPT=true
+POWERLEVEL9K_DIR_HOME_BACKGROUND='111'
+POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND='111'
+POWERLEVEL9K_DIR_ETC_BACKGROUND='111'
+POWERLEVEL9K_DIR_DEFAULT_BACKGROUND='111'
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(vi_mode custom_myuser_icon dir vcs)
+POWERLEVEL9K_VCS_CLEAN_FOREGROUND='black'
+POWERLEVEL9K_VCS_CLEAN_BACKGROUND=159
+POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='black'
+POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=159
+POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='black'
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=122
+POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND=69
+POWERLEVEL9K_VI_MODE_NORMAL_FOREGROUND='black'
+POWERLEVEL9K_VI_MODE_INSERT_BACKGROUND=32
+POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND='black'
+
+#PowerLevel9K Enable User Icon Font-Conf
+POWERLEVEL9K_MODE="nerdfont-complete"
+POWERLEVEL9K_CUSTOM_MYUSER_ICON="echo $'\uF1D9 '"
+POWERLEVEL9K_CUSTOM_MYUSER_ICON_BACKGROUND=038
+
+#Setting Up LS To Have Color From The Vivid Color Package
+alias ls='ls --color -a'
+export LS_COLORS="$(vivid generate snazzy)"
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+autoload -Uz compinit
+compinit
+
+#Alias command
+alias zshconf="vim ~/.myzshrc"
+
+
+#Modify zsh file and source
+modzsh()
+{
+	zshconf
+	source ~/.zshrc	
+	echo Zshrc Successfully Sourced
+}
+
