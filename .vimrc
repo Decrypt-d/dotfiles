@@ -4,8 +4,7 @@ set tabstop=4
 set number                                                 
 set encoding=utf-8                                         
 set backspace=indent,eol,start                             
-colorscheme slate                                          
-set term=screen-256color                                   
+colorscheme my_color_scheme
                                                            
 inoremap jj <ESC>l
 
@@ -45,5 +44,4 @@ let g:lightline = { 'colorscheme': 'PaperColor_light'}
 
 "Enable NerdTree On Launch
 "NERDTreeToggle 
-
 
