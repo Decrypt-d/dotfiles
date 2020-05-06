@@ -1,0 +1,62 @@
+#Open Terminal
+super + Return
+	exec $TERMINAL
+
+#Close Program
+super + {_, shift + } c
+	bspc node -{c,k}
+
+#Launches Browser
+super + b
+	exec $BROWSER
+
+#Refreshes Keybinding
+ctrl + shift + r
+	pkill -USR1 -x sxhkd
+
+#Quit bspwm
+super + shift + q
+	bspc quit
+
+#Refresh bspwm
+super + shift + r
+	bspc wm -r && pkill compton > /dev/null 2>&1 && /usr/bin/compton --config ~/.config/compton/comton.conf & 
+	
+#Set Window states
+super + {t,shift + t,f,shift + f}
+	state={tiled,pseudo_tiled,fullscreen,floating}; \
+	bspc query -N -n focused."$state" && state=tiled; \ 
+	bspc node -t "$state"
+
+#Window focus or swap when hold down shift
+super + {_, shift + } + {h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+#Move window node around the bspwm tree 
+super + {Left,Up,Right,Down}
+	bspc node -n {west,north,east,south}
+
+#Move focused window to desktop
+super + shift +{0-5}
+	bspc node -d {0-5}
+
+
+#Focus Different Desktops
+super + {0-5}
+	bspc desktop -f {0-5}
+
+#Show rofi
+super + d
+	rofi -show drun rofi
+
+#Take Screenshot using scrot
+super + shift + s
+	type shotgun && exec shotgun -f png - | xclip -selection clipboard -t image/png
+
+#Open file explorer
+super + e
+	exec $TERMINAL $FILE_EXPLORER
+
+#Reload Wallpaper and Color theme
+super + r
+	which wal && wal -i "$WALLPAPER_LOC"

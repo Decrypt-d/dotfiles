@@ -1,0 +1,80 @@
+configuration {
+    display-drun:"Search";
+    display-window:"Window";
+    show-icons:true;
+}
+
+* {
+    lines: 10;
+	lines-padding: 15;
+    columns: 4;
+	padding: 10;
+    background-color: #272f3e99;
+    border-color: #00000000;
+    text-color: #EFEFEF;
+}
+
+#window {
+    border: 0;
+    border-radius: 4px;
+    padding: 0 0 0 40;
+    width: 30%;
+    height: 50%;
+}
+ 
+#mainbox {
+    background-color: #00000000;
+    children: [inputbar, listview];
+    spacing: 10px;
+    /*margin: 20%;*/
+    padding: 40px 0;
+    border: 1px;
+    border-color: @base0D;
+}
+ 
+ 
+#listview {
+    background-color: #00000000;
+    fixed-height: 0;
+    border: 0px;
+    spacing: 5px;
+    scrollbar: false;
+    padding: 10px 10px 0px;
+}
+ 
+#element {
+    background-color: #00000000;
+    border: 0;
+	border-radius: 10;
+    padding: 12 0 12 4 ;
+}
+ 
+#element selected {
+    background-color: #4C5FCA;
+    text-color: #EFEFEF;
+}
+ 
+#inputbar {
+    children:   [ prompt,textbox-prompt-colon,entry,case-indicator ];
+    background-color: #00000000;
+}
+ 
+#case-indicator {
+    background-color: #00000000;
+    spacing: 0;
+}
+#entry {
+    background-color: #00000000;
+    spacing: 0;
+}
+#prompt {
+    background-color: #00000000;
+    spacing: 0;
+	font: "Fantasque Sans Mono 14";
+}
+ 
+#textbox-prompt-colon {
+    background-color: #00000000;
+    expand: false;
+    str: ":";
+}

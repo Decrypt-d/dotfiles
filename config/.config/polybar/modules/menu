@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Launch Rofi
+rofi -no-lazy-grab -show drun \
+-config /home/danh/.config/rofi/menu.rasi \
+-xoffset 10 -yoffset 40 \
+-location 1 \
+-hide-scrollbar true \
+-color-enabled true \
+-font "Fantasque Sans Mono 12" \

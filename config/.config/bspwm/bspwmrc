@@ -1,0 +1,40 @@
+#!/bin/bash
+
+#Startup Script
+sxhkd &
+compton --config ~/.config/compton/compton.conf &
+pkill polybar > /dev/null 2>&1 
+polybar bspwm &
+polybar music &
+polybar tray &
+xsetroot -cursor_name left_ptr &
+
+#Remove All Previous Rules to Prevent Doubling
+bspc rule -r "*"
+
+#Create Desktops
+bspc monitor -d 1 2 3 4 5 0
+
+### Startup initialization ###
+##### Discord Rule and Launch
+bspc rule -a discord desktop=0
+pgrep Discord || /usr/bin/discord &
+
+##### Caprine Rule and Launch
+bspc rule -a caprine desktop=0 
+pgrep caprine || /usr/bin/caprine &
+
+### App rule
+bspc rule -a Zathura state=tiled
+
+#Refocus desktop
+bspc desktop -f 1
+
+#On hover focus
+bspc config focus_follows_pointer true
+
+#bspwm configuration
+bspc config top_padding 62
+bspc config border_width 1
+bspc config window_gap 11
+bspc config focused_border_color \#FFFFFF

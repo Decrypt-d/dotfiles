@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/danh/.config/bspwm'
+let g:netrw_dirhist_6='/home/danh/.config/polybar'
+let g:netrw_dirhist_5='/home/danh/.config/sxhkd'
+let g:netrw_dirhist_4='/home/danh/.config/polybar'
+let g:netrw_dirhist_3='/home/danh/.vim/plugged/lightline.vim/autoload/lightline'
+let g:netrw_dirhist_2='/home/danh/.config/polybar/modules'
+let g:netrw_dirhist_1='/home/danh/.config/polybar'
+let g:netrw_dirhist_0='/home/danh/.config/wal/colorschemes'
+let g:netrw_dirhist_9='/home/danh/.config/kitty'
+let g:netrw_dirhist_8='/home/danh/.cache'
