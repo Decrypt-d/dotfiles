@@ -1,3 +1,13 @@
+call plug#begin('~/.vim/plugged')
+	Plug 'hail2u/vim-css3-syntax'
+	Plug 'vim-python/python-syntax'
+	Plug 'bling/vim-bufferline'
+	Plug 'itchyny/lightline.vim'
+	Plug 'octol/vim-cpp-enhanced-highlight'
+	Plug 'dylanaraps/wal.vim'
+	Plug 'mxw/vim-jsx'
+call plug#end()
+
 set belloff=all
 set showcmd
 set tabstop=4
@@ -8,6 +18,7 @@ set shiftwidth=4
 set mouse=a
 set cursorline
 set iskeyword-=_
+set autoread
 
 syntax on
 colorscheme wal
@@ -48,18 +59,20 @@ no _ m`O<ESC>``
 
 set laststatus=2
 
-call plug#begin('~/.vim/plugged')
-    Plug 'vim-python/python-syntax'
-    Plug 'bling/vim-bufferline'
-    Plug 'itchyny/lightline.vim'
-	Plug 'pangloss/vim-javascript'
-    Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-    Plug 'octol/vim-cpp-enhanced-highlight'
-	Plug 'dylanaraps/wal.vim'
-    Plug 'mxw/vim-jsx'
-call plug#end()
+
 
 let g:lightline = { 'colorscheme': 'wal'}
 
+set formatoptions-=cro
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 "Enable NerdTree On Launch
 "NERDTreeToggle
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
