@@ -1,0 +1,66 @@
+#!/bin/bash
+
+if ! `which xdotool >/dev/null 2>&1`; then
+	echo xdotool must be installed
+	exit
+elif ! `which xrandr >/dev/null 2>&1`; then
+	echo xrandr must be installed
+	exit
+elif ! `which bc >/dev/null 2>&1`; then
+	echo bc must be installed
+	exit
+fi
+
+if [ -z $1 ]; then
+	echo Please specify a terminal as argument
+	exit
+fi
+
+if ! `which $1 >/dev/null 2>&1`; then
+	echo The specified terminal - $1 does not exist. Please Install it
+	exit
+fi
+
+#Width and height of terminal as a percentage of monitor 
+terminalWidth=0.55
+terminalHeight=0.65
+
+#The class name of the dropdown terminal use for identification
+dropdownTerminalClass='_dropdownTerminal'
+
+#Get the size of the terminal as a specified percentage
+function get_term_size() {
+	result=()
+	currentlyFocusMonitor=`bspc query -M -m focused --names`
+	monitorSize=$(xrandr | grep $currentlyFocusMonitor | sed -E 's/.* ([0-9]+x[0-9]+).*/\1/')
+	monitorWidth=`echo $monitorSize | cut -d'x' -f1`
+	monitorHeight=`echo $monitorSize | cut -d'x' -f2`
+	termWidth=`echo "$terminalWidth * $monitorWidth" | bc`
+	termHeight=`echo "$terminalHeight * $monitorHeight" | bc`
+	result+=("$termWidth")
+	result+=("$termHeight")
+	echo ${result[@]}
+}
+
+#Function that removes the current rule for dropdown terminal.
+#Add new rule to change terminal size and centering on monitor
+function append_term_rule() {	
+	get_term_size
+	dropdownTermSize=`get_term_size`
+	bspc rule --remove $dropdownTerminalClass
+	currentlyFocusMonitor=`bspc query -M -m focused --names`
+	termWidth=`echo $dropdownTermSize | cut -d' ' -f1 | sed 's/\..*//'`
+	termHeight=`echo $dropdownTermSize | cut -d' ' -f2 | sed 's/\..*//'`
+	bspc rule -a $dropdownTerminalClass rectangle="$(echo $termWidth)x$termHeight+0+0" center=true sticky=on state=floating monitor=$currentlyFocusMonitor
+}
+
+#The window id for existing dropdown terminal
+dropdownTermProcId=`xdotool search --class $dropdownTerminalClass | head -n1`
+
+if [ $dropdownTermProcId ]; then
+	append_term_rule
+	bspc node $dropdownTermProcId -g hidden -f
+else
+	append_term_rule
+	bash -c "$1 --class $dropdownTerminalClass" &
+fi

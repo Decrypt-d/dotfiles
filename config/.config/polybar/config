@@ -30,51 +30,53 @@ color4 = ${xrdb:color2}
 ; |_.__/ \__,_|_|  |___/
 
 [bar/base]
-font-0=SF Mono:size=11:antialias=true;3
-font-1=Font Awesome 5 Pro,Font Awesome 5 Pro Regular:style=Regular:size=10:antialias=true;3
-font-2=Font Awesome 5 Pro,Font Awesome 5 Pro Solid:style=Solid:size=10:antialias=true;3
-font-3=IPAGothic:style=Regular:size=11:antialias=true;3
-
+font-0 = SF Mono:size=11:antialias=true;3
+font-1 = Font Awesome 5 Pro,Font Awesome 5 Pro Regular:style=Regular:size=10:antialias=true;3
+font-2 = Font Awesome 5 Pro,Font Awesome 5 Pro Solid:style=Solid:size=10:antialias=true;3
+font-3 = IPAGothic:style=Regular:size=11:antialias=true;3
 height = 45
-
 background = ${colors.background}
 override-redirect=true
 offset-y = 10
-
 wm-restack = bspwm
 
 [bar/bspwm]
+monitor = ${env:MONITOR:}
 inherit = bar/base
 width = 35%
-
 foreground = ${colors.color1}
-
-offset-x = 10
-
+offset-x = 12
 modules-left = bspwm todo xwindow
-
 tray-position = right
 tray-padding = 2
 
 [bar/music]
+monitor = ${env:MONITOR:}
 inherit = bar/base
 enable-ipc = true
-width = 28%
-
+width = 28% 
 foreground = ${colors.color2}
 offset-x = 55.5%
-
 modules-left = wired-network previous playpause next media
 
 [bar/tray]
+monitor = ${env:MONITOR:}
 inherit = bar/base
 width = 15.5%
-
 padding-right = 0
-offset-x = 84%
-
+offset-x = 84.2%
 modules-left = pulseaudio time
 modules-right = power
+
+[bar/secondary_bar]
+monitor = ${env:MONITOR:}
+inherit = bar/base
+width = 98%
+foreground = ${colors.color1}
+offset-x = 10
+modules-left = bspwm xwindow 
+modules-right = time
+
 ;                      _       _           
 ;  _ __ ___   ___   __| |_   _| | ___  ___ 
 ; | '_ ` _ \ / _ \ / _` | | | | |/ _ \/ __|
@@ -110,7 +112,7 @@ label-padding = 1
 
 [module/bspwm]
 type = internal/bspwm
-format = '<label-state> <label-mode>'
+format = <label-state> <label-mode>
 format-padding = 2
 format-background = ${colors.color1}
 format-foreground = ${colors.background}

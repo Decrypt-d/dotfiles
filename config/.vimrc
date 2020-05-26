@@ -52,7 +52,6 @@ ino g<right> gt
 
 nmap , <C-w>w
 "nmap . <C-w>r
-nmap G Gzz
 
 no - m`o<ESC>``
 no _ m`O<ESC>``

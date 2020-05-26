@@ -2,6 +2,10 @@
 super + Return
 	exec $TERMINAL
 
+#Open the dropdown terminal
+super + apostrophe
+	exec ~/.scripts/dropdownTerminal kitty
+
 #Close Program
 super + {_, shift + } c
 	bspc node -{c,k}
@@ -20,7 +24,8 @@ super + shift + q
 
 #Refresh bspwm
 super + shift + r
-	bspc wm -r && pkill compton > /dev/null 2>&1 && /usr/bin/compton --config ~/.config/compton/comton.conf & 
+	bspc wm -r && pkill compton > /dev/null 2>&1 \
+	&& /usr/bin/compton --config ~/.config/compton/comton.conf & 
 	
 #Set Window states
 super + {t,shift + t,f,shift + f}
@@ -37,13 +42,27 @@ super + {Left,Up,Right,Down}
 	bspc node -n {west,north,east,south}
 
 #Move focused window to desktop
-super + shift +{0-5}
-	bspc node -d {0-5}
+super + shift +{1-5}
+	bspc node -d `bspc query -M -m focused`:\^{1-5}
 
+##Move focused window for specific desktop
+super + shift + 0
+	bspc node -d `bspc query -M -m focused`:\^6
 
 #Focus Different Desktops
-super + {0-5}
-	bspc desktop -f {0-5}
+super + {1-5}
+	bspc desktop -f $(bspc query -M -m focused):\^{1-5}
+##Focus for specific desktop
+super + 0
+	bspc desktop -f $(bspc query -M -m focused):\^6
+
+#Focus Different Monitors
+super + alt + {h,j,k,l}
+	bspc monitor -f {west,south,north,east}
+
+#Move window to different monitor
+super + alt + shift + {h,j,k,l}
+	bspc node --to-monitor {west,south,north,east}
 
 #Show rofi
 super + d
@@ -51,7 +70,7 @@ super + d
 
 #Take Screenshot using scrot
 super + shift + s
-	type shotgun && exec shotgun -f png - | xclip -selection clipboard -t image/png
+	type shotgun && sleep 1.0 && exec shotgun -f png - | xclip -selection clipboard -t image/png
 
 #Open file explorer
 super + e
@@ -60,3 +79,8 @@ super + e
 #Reload Wallpaper and Color theme
 super + r
 	which wal && wal -i "$WALLPAPER_LOC"
+
+#Window Movement
+alt + {h,j,k,l}
+	bspc node focused --move {-20 0,0 20,0 -20,20 0}
+

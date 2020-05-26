@@ -49,7 +49,7 @@ element {{
     --elevation-high: 0 8px 16px rgba(0,0,0,0.24);
     --logo-primary: #fff;
     --guild-header-text-shadow: 0 1px 1px rgba(0,0,0,0.4);
-    --channeltextarea-background: {color8};
+    --channeltextarea-background: {color0};
     --activity-card-background: #ff0000;
     --textbox-markdown-syntax: {foreground};
     --deprecated-card-bg: rgba(32,34,37,0.6);
