@@ -1,18 +1,101 @@
+###################################################
+## Open Applications
+###################################################
+
 #Open Terminal
 super + Return
 	exec $TERMINAL
 
 #Open the dropdown terminal
 super + apostrophe
-	exec ~/.scripts/dropdownTerminal kitty
+	exec ~/.scripts/dropdownTerminal $TERMINAL /home/danh/.config/kitty/kittyDropdownTerm.conf
+
+#Open rofi
+super + d
+	rofi -show drun rofi
+
+#Open Browser
+super + b
+	exec $BROWSER
+	
+#Open file explorer
+super + e
+	exec $TERMINAL $FILE_EXPLORER
+
+
+###################################################
+## Windows/Nodes Manipulation
+###################################################
+
+#Window focus or swap when hold down shift
+super + {_, shift + } + {h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+#Move window node around the bspwm tree 
+super + {Left,Up,Right,Down}
+	bspc node -n {west,north,east,south}
+
+#Window Movement
+alt + {h,j,k,l}
+	bspc node focused --move {-20 0,0 20,0 -20,20 0}
+
+#Move focused window for specific desktop
+super + shift + 0
+	bspc node -d `bspc query -M -m focused`:\^6
+
+#Set Window states
+super + {t,shift + t,f,shift + f}
+	state={tiled,pseudo_tiled,fullscreen,floating}; \
+	bspc query -N -n focused."$state" && state=tiled; \ 
+	bspc node -t "$state"
 
 #Close Program
 super + {_, shift + } c
 	bspc node -{c,k}
 
-#Launches Browser
-super + b
-	exec $BROWSER
+#Move focused window to desktop
+super + shift +{1-5}
+	bspc node -d `bspc query -M -m focused`:\^{1-5}
+
+#Move window to different monitor
+super + alt + shift + {h,j,k,l}
+	bspc node --to-monitor {west,south,north,east}
+
+###################################################
+## Desktop Manipulation
+###################################################
+
+#Focus Different Desktops
+super + {1-5}
+	bspc desktop -f $(bspc query -M -m focused):\^{1-5}
+
+#Focus for specific desktop
+super + 0
+	bspc desktop -f $(bspc query -M -m focused):\^6
+
+###################################################
+## Monitor Manipulation
+###################################################
+
+#Focus Different Monitors
+super + alt + {h,j,k,l}
+	bspc monitor -f {west,south,north,east}
+
+###################################################
+## Miscellaneous Actions
+###################################################
+
+#Show sxhkd hotkeys
+ctrl + h
+	cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last \{print $0,"\t",last\} \{last=""\} /^#/\{last=$0\}' | column -t -s $'\t' | rofi -dmenu -no-show-icons -i -p "sxhkd"
+
+#Take Screenshot using scrot
+super + shift + s
+	type shotgun && sleep 1.0 && exec shotgun -f png - | xclip -selection clipboard -t image/png
+
+#Reload Wallpaper and Color theme
+super + r
+	which wal && wal -i "$WALLPAPER_LOC"
 
 #Refreshes Keybinding
 ctrl + shift + r
@@ -26,61 +109,3 @@ super + shift + q
 super + shift + r
 	bspc wm -r && pkill compton > /dev/null 2>&1 \
 	&& /usr/bin/compton --config ~/.config/compton/comton.conf & 
-	
-#Set Window states
-super + {t,shift + t,f,shift + f}
-	state={tiled,pseudo_tiled,fullscreen,floating}; \
-	bspc query -N -n focused."$state" && state=tiled; \ 
-	bspc node -t "$state"
-
-#Window focus or swap when hold down shift
-super + {_, shift + } + {h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
-
-#Move window node around the bspwm tree 
-super + {Left,Up,Right,Down}
-	bspc node -n {west,north,east,south}
-
-#Move focused window to desktop
-super + shift +{1-5}
-	bspc node -d `bspc query -M -m focused`:\^{1-5}
-
-##Move focused window for specific desktop
-super + shift + 0
-	bspc node -d `bspc query -M -m focused`:\^6
-
-#Focus Different Desktops
-super + {1-5}
-	bspc desktop -f $(bspc query -M -m focused):\^{1-5}
-##Focus for specific desktop
-super + 0
-	bspc desktop -f $(bspc query -M -m focused):\^6
-
-#Focus Different Monitors
-super + alt + {h,j,k,l}
-	bspc monitor -f {west,south,north,east}
-
-#Move window to different monitor
-super + alt + shift + {h,j,k,l}
-	bspc node --to-monitor {west,south,north,east}
-
-#Show rofi
-super + d
-	rofi -show drun rofi
-
-#Take Screenshot using scrot
-super + shift + s
-	type shotgun && sleep 1.0 && exec shotgun -f png - | xclip -selection clipboard -t image/png
-
-#Open file explorer
-super + e
-	exec $TERMINAL $FILE_EXPLORER
-
-#Reload Wallpaper and Color theme
-super + r
-	which wal && wal -i "$WALLPAPER_LOC"
-
-#Window Movement
-alt + {h,j,k,l}
-	bspc node focused --move {-20 0,0 20,0 -20,20 0}
-

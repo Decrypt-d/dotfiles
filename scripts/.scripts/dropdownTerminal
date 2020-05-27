@@ -45,7 +45,6 @@ function get_term_size() {
 #Function that removes the current rule for dropdown terminal.
 #Add new rule to change terminal size and centering on monitor
 function append_term_rule() {	
-	get_term_size
 	dropdownTermSize=`get_term_size`
 	bspc rule --remove $dropdownTerminalClass
 	currentlyFocusMonitor=`bspc query -M -m focused --names`
@@ -62,5 +61,9 @@ if [ $dropdownTermProcId ]; then
 	bspc node $dropdownTermProcId -g hidden -f
 else
 	append_term_rule
-	bash -c "$1 --class $dropdownTerminalClass" &
+	if [ -z $2 ]; then
+		exec $1 --class $dropdownTerminalClass 
+	else
+		exec $1 --config $2 --class $dropdownTerminalClass
+	fi
 fi

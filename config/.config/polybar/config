@@ -33,7 +33,7 @@ color4 = ${xrdb:color2}
 font-0 = SF Mono:size=11:antialias=true;3
 font-1 = Font Awesome 5 Pro,Font Awesome 5 Pro Regular:style=Regular:size=10:antialias=true;3
 font-2 = Font Awesome 5 Pro,Font Awesome 5 Pro Solid:style=Solid:size=10:antialias=true;3
-font-3 = IPAGothic:style=Regular:size=11:antialias=true;3
+;font-3 = IPAGothic:style=Regular:size=11:antialias=true;3
 height = 45
 background = ${colors.background}
 override-redirect=true

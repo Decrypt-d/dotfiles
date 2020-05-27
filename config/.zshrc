@@ -139,4 +139,4 @@ which wal 1>/dev/null 2>&1 && cat ~/.cache/wal/sequences
 which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) = 1 ] && neofetch
 
 #Change pager to bat
-which bat 1>/dev/null 2>&1 && export PAGER=bat
+which bat 1>/dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
