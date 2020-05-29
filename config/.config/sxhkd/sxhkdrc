@@ -86,7 +86,7 @@ super + alt + {h,j,k,l}
 ###################################################
 
 #Show sxhkd hotkeys
-ctrl + h
+super + ctrl + h
 	cat ~/.config/sxhkd/sxhkdrc | awk '/^[a-z]/ && last \{print $0,"\t",last\} \{last=""\} /^#/\{last=$0\}' | column -t -s $'\t' | rofi -dmenu -no-show-icons -i -p "sxhkd"
 
 #Take Screenshot using scrot

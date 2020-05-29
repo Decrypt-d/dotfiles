@@ -3,8 +3,6 @@ export ZSH="/home/danh/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-#Load Plugin
-plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -79,6 +77,7 @@ POWERLEVEL9K_MODE="nerdfont-complete"
 zstyle ':completion:*' list-colors 'di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
 autoload -Uz compinit
 compinit
+kitty + complete setup zsh | source /dev/stdin
 
 #Change the reverse video character
 export PROMPT_EOL_MARK=''
@@ -140,3 +139,17 @@ which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) = 1 ] && neofetch
 
 #Change pager to bat
 which bat 1>/dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+###################################################
+## Plugins
+###################################################
+#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+#####OH MY ZSH PLUGINS
+plugins=(git)
+
+###################################################
+## Alias
+###################################################
+which nvim >/dev/null 2>&1 && alias vim=nvim 
+

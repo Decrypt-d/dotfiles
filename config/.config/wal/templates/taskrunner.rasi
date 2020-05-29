@@ -10,7 +10,7 @@ configuration {{
     background-color: {background}cc;
     border-color: #00000000;
     text-color: #EFEFEF;
-    font: "SF Pro Text 16";
+    font: "SF Mono 16";
 }}
  
 #window {{

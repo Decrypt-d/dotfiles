@@ -148,7 +148,7 @@ label-urgent-foreground = ${colors.background}
 type = custom/text
 content = 
 content-foreground = ${colors.color3}
-click-left = powermenu
+click-left = exec ~/.config/polybar/modules/shutdown.sh
 content-padding = 2
 
 [module/time]

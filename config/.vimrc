@@ -1,11 +1,14 @@
+"Set the runtime path of vim
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath = &runtimepath
+
 call plug#begin('~/.vim/plugged')
 	Plug 'hail2u/vim-css3-syntax'
 	Plug 'vim-python/python-syntax'
-	Plug 'bling/vim-bufferline'
 	Plug 'itchyny/lightline.vim'
 	Plug 'octol/vim-cpp-enhanced-highlight'
-	Plug 'dylanaraps/wal.vim'
 	Plug 'mxw/vim-jsx'
+	Plug 'dylanaraps/wal.vim'
 call plug#end()
 
 set belloff=all

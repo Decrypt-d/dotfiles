@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if ! `which xdotool >/dev/null 2>&1`; then
 	echo xdotool must be installed
@@ -22,8 +22,8 @@ if ! `which $1 >/dev/null 2>&1`; then
 fi
 
 #Width and height of terminal as a percentage of monitor 
-terminalWidth=0.55
-terminalHeight=0.65
+terminalWidth=0.65
+terminalHeight=0.7
 
 #The class name of the dropdown terminal use for identification
 dropdownTerminalClass='_dropdownTerminal'

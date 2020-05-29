@@ -1,0 +1,41 @@
+* {{
+    lines: 10;
+	lines-padding: 15;
+    columns: 4;
+	padding: 0;
+    background-color: {background}99;
+    border-color: #00000000;
+    text-color: #EFEFEF;
+}}
+
+#window {{
+    border: 0;
+    padding: 0 0 0 0;
+    width: 4%;
+    height: 3.6%;
+    background-color: {background}99;
+}}
+
+#mainbox {{
+    background-color: {background}00;
+    children: [listview];
+    border-color: @base0D;
+}}
+
+#listview {{
+    background-color: #00000000;
+    fixed-height: 0;
+    border: 0px;
+    scrollbar: false;
+}}
+
+#element {{
+    background-color: #00000000;
+	padding: 0 0 3 10;
+    border: 0;
+}}
+
+#element selected {{
+    background-color: {color2}; 
+    text-color: #EFEFEF;
+}}

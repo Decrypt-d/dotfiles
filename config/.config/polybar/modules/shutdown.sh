@@ -1,12 +1,12 @@
 #! /bin/bash
 
 selectedOption=$(echo -e "	Sleep\n	Shutdown" | rofi -dmenu -p "Options" \
--xoffset -2 -yoffset 40 \
+-xoffset -13 -yoffset 56 \
 -location 3 \
 -hide-scrollbar true \
 -color-enabled true \
 -font "Fantasque Sans Mono 12" \
--config /home/danh/.config/rofi/shutdown.rasi)
+-config /home/danh/.config/rofi/shutdownMenu.rasi)
 
 if [ "$selectedOption" = '	Sleep' ]; then 
 	systemctl suspend
