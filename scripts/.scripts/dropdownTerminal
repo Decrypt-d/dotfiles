@@ -48,8 +48,8 @@ function append_term_rule() {
 	dropdownTermSize=`get_term_size`
 	bspc rule --remove $dropdownTerminalClass
 	currentlyFocusMonitor=`bspc query -M -m focused --names`
-	termWidth=`echo $dropdownTermSize | cut -d' ' -f1 | sed 's/\..*//'`
-	termHeight=`echo $dropdownTermSize | cut -d' ' -f2 | sed 's/\..*//'`
+	termWidth=`echo $dropdownTermSize | cut -d' ' -f1`
+	termHeight=`echo $dropdownTermSize | cut -d' ' -f2`
 	bspc rule -a $dropdownTerminalClass rectangle="$(echo $termWidth)x$termHeight+0+0" center=true sticky=on state=floating monitor=$currentlyFocusMonitor
 }
 
