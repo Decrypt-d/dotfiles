@@ -1,12 +1,12 @@
 #!/bin/sh
 
-if ! `which xdotool >/dev/null 2>&1`; then
+if ! which xdotool >/dev/null 2>&1; then
 	echo xdotool must be installed
 	exit
-elif ! `which xrandr >/dev/null 2>&1`; then
+elif ! which xrandr >/dev/null 2>&1; then
 	echo xrandr must be installed
 	exit
-elif ! `which bc >/dev/null 2>&1`; then
+elif ! which bc >/dev/null 2>&1; then
 	echo bc must be installed
 	exit
 fi
@@ -16,14 +16,14 @@ if [ -z $1 ]; then
 	exit
 fi
 
-if ! `which $1 >/dev/null 2>&1`; then
+if ! which $1 >/dev/null 2>&1; then
 	echo The specified terminal - $1 does not exist. Please Install it
 	exit
 fi
 
 #Width and height of terminal as a percentage of monitor 
-terminalWidth=0.65
-terminalHeight=0.7
+terminalWidth=0.68
+terminalHeight=0.75
 
 #The class name of the dropdown terminal use for identification
 dropdownTerminalClass='_dropdownTerminal'
@@ -46,19 +46,20 @@ function get_term_size() {
 #Add new rule to change terminal size and centering on monitor
 function append_term_rule() {	
 	dropdownTermSize=`get_term_size`
+    echo ${dropdownTermSize[0]}
 	bspc rule --remove $dropdownTerminalClass
 	currentlyFocusMonitor=`bspc query -M -m focused --names`
-	termWidth=`echo $dropdownTermSize | cut -d' ' -f1`
-	termHeight=`echo $dropdownTermSize | cut -d' ' -f2`
+	termWidth=`echo $dropdownTermSize | cut -d' ' -f1 | sed -E 's/\..*//'`
+	termHeight=`echo $dropdownTermSize | cut -d' ' -f2 | sed -E 's/\..*//'`
 	bspc rule -a $dropdownTerminalClass rectangle="$(echo $termWidth)x$termHeight+0+0" center=true sticky=on state=floating monitor=$currentlyFocusMonitor
 }
 
 #The window id for existing dropdown terminal
-dropdownTermProcId=`xdotool search --class $dropdownTerminalClass | head -n1`
+dropdownTermWinId=`xdotool search --class $dropdownTerminalClass | head -n1`
 
-if [ $dropdownTermProcId ]; then
+if [ $dropdownTermWinId ]; then
 	append_term_rule
-	bspc node $dropdownTermProcId -g hidden -f
+	bspc node $dropdownTermWinId -g hidden -f
 else
 	append_term_rule
 	if [ -z $2 ]; then

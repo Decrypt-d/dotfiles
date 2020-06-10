@@ -16,9 +16,6 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 " shortcut for saving file
 nmap <leader>w :w!<cr>
 
-" Disable middle button paste
-:map <MiddleMouse> <Nop>
-:imap <MiddleMouse> <Nop>
 
 " Key to enter escape mode
 inoremap jj <ESC>l
@@ -41,11 +38,8 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
-	Plug 'hail2u/vim-css3-syntax'
-	Plug 'vim-python/python-syntax'
-	Plug 'octol/vim-cpp-enhanced-highlight'
-	Plug 'mxw/vim-jsx'
 	Plug 'dylanaraps/wal.vim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -65,7 +59,6 @@ source $VIMRUNTIME/menu.vim
 
 " Turn on the Wild menu
 set wildmenu
-
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -212,7 +205,7 @@ map <C-l> <C-W>l
 "Buffer
 """"""""""""""""
 " Close the current buffer
-map <leader>bd :bd<cr>:tabclose<cr>gT
+map <leader>bd :bd<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -307,6 +300,16 @@ ino <left> <nop>
 ino <right> <nop>
 ino <down> <nop>
 
+" Disable middle button paste
+map <MiddleMouse> <Nop>
+imap <MiddleMouse> <Nop>
+map <ScrollWheelUp> <Nop>
+map <ScrollWheelDown> <Nop>
+set mouse=a
+
+" Set timeout time for when a key timeout
+set timeoutlen=400
+
 " Insert new line below or above keys
 no - m`o<ESC>``
 no _ m`O<ESC>``
@@ -316,6 +319,12 @@ no _ m`O<ESC>``
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 map <leader>ve :e! ~/.vimrc<cr>
 autocmd! bufwritepost ~/.vimrc source ~/.vimrc
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Disable comments continuation to the next line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set formatoptions-=cro
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Lightline setting
@@ -338,7 +347,38 @@ let g:lightline = {
       \ }
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Disable comments continuation to the next line
+" => FZF Integration
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set formatoptions-=cro
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
+"Deleting buffer via fzf
+function! s:list_buffers()
+  redir => list
+  silent ls
+  redir END
+  return split(list, "\n")
+endfunction
+
+function! s:delete_buffers(lines)
+  execute 'bwipeout' join(map(a:lines, {_, line -> split(line)[0]}))
+endfunction
+
+command! FzfBd call fzf#run(fzf#wrap({
+  \ 'source': s:list_buffers(),
+  \ 'sink*': { lines -> s:delete_buffers(lines) },
+  \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept',
+\ }))
+
+" Close buffer via fzf
+noremap <leader>fbd :FzfBd<cr>
+
+" Open buffer via fzf
+noremap <leader>fb :Buffers<cr>
+
+" Browse and open file via fzf
+noremap <leader>fe :Files<cr>
+
+" Browse and open file via fzf
+noremap <leader>fm :Marks<cr>
+
+" Tags in the current project
+noremap <leader>ft :Tags<cr>

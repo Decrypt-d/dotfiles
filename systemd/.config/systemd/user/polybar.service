@@ -1,0 +1,10 @@
+[Unit]
+Description=Launch polybar
+After=pywal.service
+
+[Service]
+Type=forking
+ExecStart=/home/danh/.config/polybar/launch.sh
+
+[Install]
+WantedBy=init.service

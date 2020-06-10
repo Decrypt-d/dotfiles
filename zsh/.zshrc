@@ -140,6 +140,7 @@ which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) -eq 1 ] && neofetch
 #Change pager to bat
 which bat 1>/dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+
 ###################################################
 ## Plugins
 ###################################################
@@ -152,4 +153,26 @@ plugins=(git)
 ## Alias
 ###################################################
 which nvim >/dev/null 2>&1 && alias vim=nvim 
+which fzf >/dev/null 2>&1 && alias installpkg="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
+which sudo >/dev/null 2>&1 && alias sudo='sudo '
 
+###################################################
+## FZF configuration
+###################################################
+if which fzf >/dev/null 2>&1; then
+    #Source Fzf keybindings and autocompletion
+    [ -f ~/.fzf-zsh-keybindings.zsh ] && source ~/.fzf-zsh-keybindings.zsh
+    [ -f ~/.fzf-zsh-completion.zsh ] && source ~/.fzf-zsh-completion.zsh
+    if which fd >/dev/null 2>&1; then
+        export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude .git'
+        export FZF_CTRL_T_COMMAND='fd --hidden --follow --exclude .git'
+        export FZF_COMPLETION_COMMAND='fd --hidden --follow --exclude .git'
+   else
+        export FZF_DEFAULT_COMMAND='find -L'
+        export FZF_CTRL_T_COMMAND='find -L'
+        export FZF_COMPLETION_COMMAND='find -L'
+    fi
+
+    #Default fzf rendering options
+    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=hidden --border --preview-window 'right:60%' --preview '([ -d {} ] && tree -aC {}) || ([ -f {} ] && bat -A --style=header,grid --color=always {})'"
+fi

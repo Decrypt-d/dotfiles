@@ -1,0 +1,11 @@
+[Unit]
+Description=Sources xinitrc
+After=xorg.target
+
+[Service]
+Type=simple
+Environment=DISPLAY:=0
+ExecStart=/home/danh/.xinitrc
+
+[Install]
+WantedBy=xorg.target

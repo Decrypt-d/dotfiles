@@ -1,0 +1,11 @@
+[Unit]
+Description=Start simple X hotkey daemon
+After=monitor.service
+
+[Service]
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/sxhkd
+Restart=on-failure
+
+[Install]
+WantedBy=init.service

@@ -1,0 +1,7 @@
+#xorg.target is a virtual target
+#Active when Xorg is ready to accept connections
+
+[Unit]
+Description=Xorg server
+Wants=xorg@0.service
+After=xorg@0.service

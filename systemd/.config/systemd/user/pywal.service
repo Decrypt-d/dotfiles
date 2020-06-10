@@ -1,0 +1,12 @@
+[Unit]
+Description=Enable pywal if it is installed on the system
+After=monitor.service
+
+[Service]
+Type=notify
+NotifyAccess=all
+SuccessExitStatus=0 1
+ExecStart=/home/danh/.scripts/pywal.sh
+
+[Install]
+WantedBy=init.service

@@ -4,7 +4,7 @@
 
 #Open Terminal
 super + Return
-	exec $TERMINAL
+    exec $TERMINAL
 
 #Open the dropdown terminal
 super + apostrophe
@@ -21,7 +21,6 @@ super + b
 #Open file explorer
 super + e
 	exec $TERMINAL $FILE_EXPLORER
-
 
 ###################################################
 ## Windows/Nodes Manipulation

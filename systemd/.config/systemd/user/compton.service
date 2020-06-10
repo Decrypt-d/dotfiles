@@ -1,0 +1,10 @@
+[Unit]
+Description=Start Compton Window Compositor
+After=monitor.service
+
+[Service]
+Type=simple
+ExecStart=compton
+
+[Install]
+WantedBy=init.service

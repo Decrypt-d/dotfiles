@@ -1,17 +1,7 @@
 #!/bin/bash
 
-#Environment Variable
-export TERMINAL=/usr/bin/kitty export BROWSER=/usr/bin/brave
-export FILE_EXPLORER=/usr/bin/ranger
-export EDITOR=/usr/bin/vim
-export WALLPAPER_LOC=~/Danh/Wallpaper
-
-#Startup Script
-sxhkd &
-compton --config ~/.config/compton/compton.conf &
-pkill polybar > /dev/null 2>&1; ~/.config/polybar/launch.sh &
-xsetroot -cursor_name left_ptr &
-wal -R
+#Set cursor shape
+which xsetroot >/dev/null 2>&1 && xsetroot -cursor_name left_ptr &
 
 #Remove All Previous Rules to Prevent Doubling
 bspc rule -r "*"
@@ -22,15 +12,6 @@ for m in $monitors
 do
 	bspc monitor $m -d 1 2 3 4 5 0
 done
-
-### Startup initialization ###
-##### Discord Rule and Launch
-bspc rule -a discord desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
-pgrep Discord || /usr/bin/discord &
-
-##### Caprine Rule and Launch
-bspc rule -a caprine desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
-pgrep caprine || /usr/bin/caprine &
 
 ### App rule
 bspc rule -a Zathura state=tiled
@@ -52,3 +33,12 @@ bspc config focused_border_color \#FFFFFF
 #if ! xdotool search --class _dropdownTerminal; then
 #	kitty --class _dropdownTerminal &
 #fi
+
+### Startup initialization ###
+##### Discord Rule and Launch
+bspc rule -a discord desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
+#pgrep Discord || /usr/bin/discord &
+
+##### Caprine Rule and Launch
+bspc rule -a caprine desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
+#pgrep caprine || /usr/bin/caprine &

@@ -1,0 +1,11 @@
+[Unit]
+Description=Configure monitors
+After=xorg.target
+
+[Service]
+Type=notify
+NotifyAccess=all
+ExecStart=/home/danh/.scripts/monitors.sh
+
+[Install]
+WantedBy=xorg.target
