@@ -1,12 +1,12 @@
 [Unit]
 Description=Enable pywal if it is installed on the system
-After=monitor.service
+After=bspwm.service xorg.target monitor.service
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=oneshot
+Environment="DISPLAY=:0"
 SuccessExitStatus=0 1
-ExecStart=/home/danh/.scripts/pywal.sh
+ExecStart=wal -R
 
 [Install]
-WantedBy=init.service
+RequiredBy=xorg.target

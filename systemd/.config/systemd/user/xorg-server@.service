@@ -3,7 +3,6 @@ Description=Xorg server at display %i
 
 [Service]
 Type=notify
-Environment=Test=hello
 NotifyAccess=exec
-SuccessExitStatus=0 1
+SuccessExitStatus=0
 ExecStart=/usr/bin/Xorg :%i -nolisten tcp -noreset -verbose 2 vt1

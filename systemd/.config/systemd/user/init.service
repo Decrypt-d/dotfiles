@@ -4,8 +4,8 @@ After=xorg.target
 
 [Service]
 Type=simple
-Environment=DISPLAY:=0
+Environment="DISPLAY=:0"
 ExecStart=/home/danh/.xinitrc
 
 [Install]
-WantedBy=xorg.target
+RequiredBy=xorg.target

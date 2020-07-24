@@ -1,0 +1,4 @@
+{ 
+    "coc.source.file.ignoreHidden": false,
+    "python.jediEnabled": false
+}

@@ -3,6 +3,12 @@
 #Set cursor shape
 which xsetroot >/dev/null 2>&1 && xsetroot -cursor_name left_ptr &
 
+#Run xbindkeys to bind mouse keys xbindkeys
+which xbindkeys >/dev/null 2>&1 && xbindkeys
+ 
+#Increase keyboard output rate
+which xset >/dev/null 2>&1 && xset r rate 170 14
+
 #Remove All Previous Rules to Prevent Doubling
 bspc rule -r "*"
 
@@ -28,17 +34,11 @@ bspc config border_width 1
 bspc config window_gap 11
 bspc config focused_border_color \#FFFFFF
 
-#Configuration for dropdown terminal
-#bspc rule -a '_dropdownTerminal' sticky=on state=floating hidden=on -f
-#if ! xdotool search --class _dropdownTerminal; then
-#	kitty --class _dropdownTerminal &
-#fi
-
 ### Startup initialization ###
 ##### Discord Rule and Launch
-bspc rule -a discord desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
+bspc rule -a discord desktop=0
 #pgrep Discord || /usr/bin/discord &
 
 ##### Caprine Rule and Launch
-bspc rule -a caprine desktop=0 monitor=$(xrandr -q | grep primary | cut -d ' ' -f 1)
+bspc rule -a caprine desktop=0
 #pgrep caprine || /usr/bin/caprine &

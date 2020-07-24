@@ -16,7 +16,6 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 " shortcut for saving file
 nmap <leader>w :w!<cr>
 
-
 " Key to enter escape mode
 inoremap jj <ESC>l
 
@@ -40,6 +39,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
 	Plug 'dylanaraps/wal.vim'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'} 
+    Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -118,7 +120,6 @@ if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
 
-
 " Add a bit extra margin to the left
 set foldcolumn=1
 
@@ -159,6 +160,7 @@ set ffs=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
+set nowritebackup
 set nowb
 set noswapfile
 
@@ -246,7 +248,6 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -269,6 +270,13 @@ cnoremap <expr> <up> wildmenumode() ? "\<left>" : "\<up>"
 cnoremap <expr> <down> wildmenumode() ? "\<right>" : "\<down>"
 cnoremap <expr> <left> wildmenumode() ? "\<up>" : "\<left>"
 cnoremap <expr> <right> wildmenumode() ? " \<bs>\<C-Z>" : "\<right>"
+
+" Autocompletion via tab
+"inoremap <silent><expr> <TAB>
+"      \ pumvisible() ? "\<C-n>" :
+"      \ <SID>check_back_space() ? "\<TAB>" :
+"      \ coc#refresh()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 " Key to disable search highlight
 noremap <leader>h :nohlsearch<cr>

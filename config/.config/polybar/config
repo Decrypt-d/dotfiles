@@ -16,7 +16,6 @@
 ;==========================================================
 
 [colors]
-
 background = ${xrdb:color0:#222}
 color1 = ${xrdb:color8}
 color2 = ${xrdb:color4}
@@ -190,7 +189,8 @@ type = custom/script
 label = %output:0:76:...%
 format-foreground = ${colors.color3}
 format-padding = 1
-exec = bash -c 'source ~/.config/polybar/modules/player.sh && getTitle' interval = 1
+exec = bash -c 'source ~/.config/polybar/modules/player.sh && getTitle'
+interval = 1
 
 [module/previous]
 type = custom/script

@@ -3,9 +3,9 @@ Description=Configure monitors
 After=xorg.target
 
 [Service]
-Type=notify
-NotifyAccess=all
+Type=oneshot
+Environment="DISPLAY=:0"
 ExecStart=/home/danh/.scripts/monitors.sh
 
 [Install]
-WantedBy=xorg.target
+RequiredBy=xorg.target

@@ -106,5 +106,4 @@ super + shift + q
 
 #Refresh bspwm
 super + shift + r
-	bspc wm -r && pkill compton > /dev/null 2>&1 \
-	&& /usr/bin/compton --config ~/.config/compton/comton.conf & 
+    systemctl --user restart compton polybar

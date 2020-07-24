@@ -1,10 +1,11 @@
 [Unit]
 Description=Launch polybar
-After=pywal.service
+After=pywal.service xorg.target monitor.service
 
 [Service]
+Environment="DISPLAY=:0"
 Type=forking
 ExecStart=/home/danh/.config/polybar/launch.sh
 
 [Install]
-WantedBy=init.service
+RequiredBy=xorg.target

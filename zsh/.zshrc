@@ -3,25 +3,45 @@ export ZSH="/home/danh/.oh-my-zsh"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-
 source $ZSH/oh-my-zsh.sh
 
-#Non default configuration
+###################################################
+## History Size
+###################################################
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=100000
+SAVEHIST=100000
+# End of lines configured by zsh-newuser-install
+
+###################################################
+## Vi-Mode
+###################################################
 bindkey -v
 bindkey 'jj' vi-cmd-mode
-/usr/bin/xset r rate 185 14
+bindkey -M viins 'jj' vi-cmd-mode
+
+#Yanking into clipboard
+vi-x-yank () {
+    zle vi-yank
+    echo -e "$CUTBUFFER" | xclip -selection clipboard
+}
+zle -N vi-x-yank
+bindkey -M vicmd ' c' vi-x-yank
+
+#Pasting clipboard
+vi-x-paste () {
+    CUTBUFFER=$(xclip -o -selection clipboard)
+    zle vi-put-before
+}
+zle -N vi-x-paste
+bindkey -M vicmd ' v' vi-x-paste
+
+#Set keyboard rate
+/usr/bin/xset r rate 170 14
 
 export LANG=en_US.utf8 
 export LC_ALL=en_US.UTF-8
-
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
-HISTSIZE=1500
-SAVEHIST=1500
-bindkey -v
-bindkey -M viins 'jj' vi-cmd-mode
-# End of lines configured by zsh-newuser-install
-
 
 ### -- POWERLEVEL9K CUSTOMIZATION -- ###
 spacing() {
@@ -82,9 +102,6 @@ kitty + complete setup zsh | source /dev/stdin
 #Change the reverse video character
 export PROMPT_EOL_MARK=''
 
-#Alias command
-alias zshconf="vim ~/.myzshrc"
-
 #Modify zsh file and source
 modzsh()
 {
@@ -92,34 +109,6 @@ modzsh()
 	source ~/.zshrc	
 	echo Zshrc Successfully Sourced
 }
-
-#Enable and Connect to Tmux with only 1 session
-#if type tmux >/dev/null 2>&1; then
-#	if [[ $- = *i* ]] && [[ -z $TMUX ]]; then
-#		availableTmuxSession="$(tmux ls)"
-#		if [[ $availableTmuxSession != *"MainSession"* ]]; then
-#			tmux new-session -d -s "MainSession" -n "MainWindow" >/dev/null 2>&1
-#			tmux send-keys -t MainSession:MainWindow " tmux set-hook 'session-window-changed' 'run-shell \"tmux resize-window -A\"'" Enter
-#			tmux send-keys -t MainSession:MainWindow " tmux set-hook 'after-new-window' 'run-shell \"tmux resize-window -A\"'" Enter
-#			tmux send-keys -t MainSession:MainWindow " tmux resize-window -A" Enter
-#			tmux send-keys -t MainSession:MainWindow " clear" Enter
-#			tmux attach-session -t "MainSession" >/dev/null 2>&1
-#			exit
-#		else
-#			tmux send-keys -t MainSession:MainWindow " tmux set-hook 'session-window-changed' 'run-shell \"tmux resize-window -A\"'" Enter
-#			tmux send-keys -t MainSession:MainWindow " tmux set-hook 'after-new-window' 'run-shell \"tmux resize-window -A\"'" Enter
-#			tmux send-keys -t MainSession:MainWindow " tmux resize-window -A" Enter
-#			tmux send-keys -t MainSession:MainWindow " clear" Enter
-#			tmux attach-session -t "MainSession" >/dev/null 2>&1
-#			exit
-#		fi
-#	fi
-#fi
-
-#Enable and Connect to Tmux with multiple session
-#if type tmux > /dev/null 2>&1 && [[ $- = *i* ]] && [[ -z $TMUX ]]; then
-#	exec tmux
-#fi
 
 #A very hacky way to clear images in kitty when there is a black box glitch 
 function clear() {
@@ -135,11 +124,10 @@ function clear() {
 which wal 1>/dev/null 2>&1 && cat ~/.cache/wal/sequences 
 
 #Run neofetch
-which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) -eq 1 ] && neofetch
+which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) -eq 1 ] && [ "$(xdotool search --class _dropdownTerminal)" != "$(xdotool getwindowfocus)" ] && neofetch
 
 #Change pager to bat
 which bat 1>/dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-
 
 ###################################################
 ## Plugins

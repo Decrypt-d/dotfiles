@@ -1,10 +1,11 @@
 [Unit]
 Description=Start Compton Window Compositor
-After=monitor.service
+After=xorg.target
 
 [Service]
 Type=simple
-ExecStart=compton
+Environment="DISPLAY=:0"
+ExecStart=compton --config /home/danh/.config/compton/compton.conf
 
 [Install]
-WantedBy=init.service
+RequiredBy=xorg.target
