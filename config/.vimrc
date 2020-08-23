@@ -42,6 +42,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'} 
     Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
     Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}
+	Plug 'wellle/targets.vim'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -81,7 +82,7 @@ set hid
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
+set whichwrap=h,<,>
 
 " Ignore case when searching
 set ignorecase
