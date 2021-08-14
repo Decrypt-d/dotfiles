@@ -42,6 +42,10 @@ alt + {h,j,k,l}
 super + shift + 0
 	bspc node -d `bspc query -M -m focused`:\^6
 
+#Move focused window to desktop
+super + shift +{1-5}
+	bspc node -d `bspc query -M -m focused`:\^{1-5}
+
 #Set Window states
 super + {t,shift + t,f,shift + f}
 	state={tiled,pseudo_tiled,fullscreen,floating}; \
@@ -52,13 +56,13 @@ super + {t,shift + t,f,shift + f}
 super + {_, shift + } c
 	bspc node -{c,k}
 
-#Move focused window to desktop
-super + shift +{1-5}
-	bspc node -d `bspc query -M -m focused`:\^{1-5}
-
 #Move window to different monitor
 super + alt + shift + {h,j,k,l}
 	bspc node --to-monitor {west,south,north,east}
+
+#Even layout node
+super + shift + e
+    bspc node '@/' -B
 
 ###################################################
 ## Desktop Manipulation

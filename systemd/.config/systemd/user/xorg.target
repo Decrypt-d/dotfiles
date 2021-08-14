@@ -3,8 +3,8 @@
 
 [Unit]
 Description=Xorg server
-Requires=xorg-server@0.service
-After=default.target
+#Requires=xorg-server@0.service
+#After=default.target
 
-[Install]
-WantedBy=default.target
+#[Install]
+#WantedBy=default.target

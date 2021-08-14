@@ -12,4 +12,6 @@ systemctl --user enable polybar.service
 systemctl --user enable compton.service
 systemctl --user enable init.service
 systemctl --user enable monitor.service
-systemctl --user enable xorg.target
+#systemctl --user enable xorg.target
+
+startx

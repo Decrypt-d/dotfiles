@@ -30,23 +30,19 @@ dropdownTerminalClass='_dropdownTerminal'
 
 #Get the size of the terminal as a specified percentage
 function get_term_size() {
-	result=()
 	currentlyFocusMonitor=`bspc query -M -m focused --names`
 	monitorSize=$(xrandr | grep $currentlyFocusMonitor | sed -E 's/.* ([0-9]+x[0-9]+).*/\1/')
 	monitorWidth=`echo $monitorSize | cut -d'x' -f1`
 	monitorHeight=`echo $monitorSize | cut -d'x' -f2`
 	termWidth=`echo "$terminalWidth * $monitorWidth" | bc`
 	termHeight=`echo "$terminalHeight * $monitorHeight" | bc`
-	result+=("$termWidth")
-	result+=("$termHeight")
-	echo ${result[@]}
+	echo "$termWidth $termHeight"
 }
 
 #Function that removes the current rule for dropdown terminal.
 #Add new rule to change terminal size and centering on monitor
 function append_term_rule() {	
 	dropdownTermSize=`get_term_size`
-    echo ${dropdownTermSize[0]}
 	bspc rule --remove $dropdownTerminalClass
 	currentlyFocusMonitor=`bspc query -M -m focused --names`
 	termWidth=`echo $dropdownTermSize | cut -d' ' -f1 | sed -E 's/\..*//'`

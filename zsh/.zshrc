@@ -18,8 +18,8 @@ SAVEHIST=100000
 ## Vi-Mode
 ###################################################
 bindkey -v
-bindkey 'jj' vi-cmd-mode
-bindkey -M viins 'jj' vi-cmd-mode
+bindkey '^v' vi-cmd-mode
+bindkey -M viins '^v' vi-cmd-mode
 
 #Yanking into clipboard
 vi-x-yank () {
@@ -38,7 +38,7 @@ zle -N vi-x-paste
 bindkey -M vicmd ' v' vi-x-paste
 
 #Set keyboard rate
-/usr/bin/xset r rate 170 14
+/usr/bin/xset r rate 180 15
 
 export LANG=en_US.utf8 
 export LC_ALL=en_US.UTF-8
@@ -111,14 +111,14 @@ modzsh()
 }
 
 #A very hacky way to clear images in kitty when there is a black box glitch 
-function clear() {
-	if  type kitty > /dev/null 2>&1; then
-		kitty +kitten icat --clear > /dev/null 2>&1
-		/usr/bin/clear
-	else
-		/usr/bin/clear
-	fi
-}
+#function clear() {
+#	if  type kitty > /dev/null 2>&1; then
+#		kitty +kitten icat --clear > /dev/null 2>&1
+#		/usr/bin/clear
+#	else
+#		/usr/bin/clear
+#	fi
+#}
 
 #Add pywal support
 which wal 1>/dev/null 2>&1 && cat ~/.cache/wal/sequences 
@@ -162,5 +162,5 @@ if which fzf >/dev/null 2>&1; then
     fi
 
     #Default fzf rendering options
-    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=hidden --border --preview-window 'right:60%' --preview '([ -d {} ] && tree -aC {}) || ([ -f {} ] && bat -A --style=header,grid --color=always {})'"
+    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=hidden --bind=ctrl-v:abort --border --preview-window 'right:60%' --preview '([ -d {} ] && tree -aC {}) || ([ -f {} ] && bat -A --style=header,grid --color=always {})'"
 fi
