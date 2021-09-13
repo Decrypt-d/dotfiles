@@ -40,9 +40,6 @@ local locker_config = {
 local input_password = nil
 local lock_again = nil
 local type_again = true
-print("----------------------------------------")
-print(locker_config.bg_dir)
-print("----------------------------------------")
 local capture_now = locker_config.capture_intruder
 local locked_tag = nil
 
@@ -56,12 +53,21 @@ local uname_text = wibox.widget {
 }
 
 local caps_text = wibox.widget {
-	id = 'uname_text',
+	id = 'caps_text',
 	markup = 'Caps Lock is on',
 	font = 'Inter Italic 10',
 	align = 'center',
 	valign = 'center',
 	opacity = 0.0,
+	widget = wibox.widget.textbox
+}
+
+local pass_input_display = wibox.widget {
+	id = 'pass_input_text',
+	markup = 'Enter Password',
+	font = 'Inter Bold 11',
+	align = 'center',
+	valign = 'center',
 	widget = wibox.widget.textbox
 }
 
@@ -323,6 +329,24 @@ local locker = function(s)
 		locker_widget:emit_signal('widget::redraw_needed')
 	end
 
+    -- Update password display text box
+    local pass_input_display_update = function()
+        if input_password == nil then
+            pass_input_display:set_markup("Enter Password")
+        else 
+            local pass_len = string.len(input_password)
+            if pass_len > 0 then
+                local place_holder = ""
+                for i=1,pass_len do
+                    place_holder = place_holder .. '*'
+                end
+                pass_input_display:set_markup(place_holder)
+            else
+                pass_input_display:set_markup("Enter Password")
+            end
+        end
+    end
+
 	-- Check webcam
 	local check_webcam = function()
 		awful.spawn.easy_async_with_shell(
@@ -477,6 +501,7 @@ local locker = function(s)
 				key       = 'u',
 				on_press  = function() 
 					input_password = nil
+                    pass_input_display_update()
 				end
 			},
 			awful.key {
@@ -502,9 +527,24 @@ local locker = function(s)
 			if key == 'Escape' then
 				-- Clear input threshold
 				input_password = nil
+                pass_input_display_update()
 				return
 			end
 
+            if key == 'BackSpace' then
+                if input_password ~= nil then
+                    local pass_len = string.len(input_password)
+                    if pass_len == 1 then
+                        input_password = nil
+                    else
+                      input_password = string.sub(input_password, 1, pass_len - 1)
+                    end
+                end
+				locker_arc_rotate()
+                pass_input_display_update()
+                return
+            end
+            
 			-- Accept only the single charactered key
 			-- Ignore 'Shift', 'Control', 'Return', 'F1', 'F2', etc., etc.
 			if #key == 1 then
@@ -512,9 +552,11 @@ local locker = function(s)
 
 				if input_password == nil then
 					input_password = key
+                    pass_input_display_update()
 					return
 				end
 				input_password = input_password .. key
+                pass_input_display_update()
 			end
 
 		end,
@@ -546,7 +588,7 @@ local locker = function(s)
 						authenticated = input_password == locker_config.fallback_password()
 
 						local rtfm = naughty.action {
-							name = 'Read Wiki',
+							name = 'lua-pam wiki',
 						   	icon_only = false
 						}
 
@@ -560,7 +602,7 @@ local locker = function(s)
 							function()
 								awful.spawn(
 									[[sh -c "
-									xdg-open 'https://github.com/manilarome/the-glorious-dotfiles/wiki'
+									xdg-open 'https://github.com/RMTT/lua-pam'
 									"]],
 									false
 								)
@@ -570,7 +612,7 @@ local locker = function(s)
 						naughty.notification({
 							app_name = 'Security',
 							title = 'WARNING',
-							message = 'You\'re using the fallback password! It\'s recommended to use the PAM Integration!',
+							message = 'You\'re using the fallback password! It\'s recommended to use the PAM Integration!\n Please install lua-pam',
 							urgency = 'critical',
 							actions = { rtfm, dismiss }
 						})
@@ -581,6 +623,7 @@ local locker = function(s)
 					-- Come in!
 					self:stop()
 					generalkenobi_ohhellothere()
+                    input_password = nil
 				else
 					-- F*ck off, you [REDACTED]!
 					stoprightthereyoucriminalscum()
@@ -588,7 +631,6 @@ local locker = function(s)
 
 				-- Allow typing again and empty password container
 				type_again = false
-				input_password = nil
 			end
 		end
 	}
@@ -644,6 +686,7 @@ local locker = function(s)
 						layout = wibox.layout.stack
 					},
 					uname_text,
+                    pass_input_display,
 					caps_text
 				},
 			},
@@ -665,6 +708,9 @@ local locker = function(s)
 
 			-- Check webcam status
 			check_webcam()
+
+            -- Refresh password input display
+            pass_input_display_update()
 
 			-- Show all the lockscreen on each screen
 			for s in screen do
