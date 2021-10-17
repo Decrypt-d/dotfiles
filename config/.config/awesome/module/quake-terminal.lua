@@ -26,12 +26,11 @@ local quake_properties = function()
 		round_corners = true,
 		keys = client_keys,
 		buttons = client_buttons,
-		placement = awful.placement.top,
+        screen = 1,
+		placement = awful.placement.centered,
 		shape = beautiful.client_shape_rectangle,
         width = term_width,
         height = term_height,
-        x = (screen.primary.geometry.width / 2) - (term_width / 2),
-        y = (screen.primary.geometry.height / 2) - (term_height / 2)
 	}
 end
 

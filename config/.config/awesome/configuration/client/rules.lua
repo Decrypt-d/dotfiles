@@ -238,6 +238,20 @@ ruled.client.connect_signal(
 			}
 		}
 
+		-- Games
+		ruled.client.append_rule {
+			id = 'games',
+			rule_any = {
+				class = {
+                    'stellaris'
+				}
+			},
+			properties = {
+                minimized = false,
+				skip_decoration = true
+			}
+		}
+
 		-- Multimedia Editing
 		ruled.client.append_rule {
 			id = 'graphics',

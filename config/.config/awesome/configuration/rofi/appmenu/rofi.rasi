@@ -20,6 +20,7 @@ configuration {
 	background-black: #00000066;
 	urgent: #E91E6366;
 	urgent-selected: #E91E6377;
+    background-color:  transparent;
 }
 
 window {
@@ -28,6 +29,8 @@ window {
 	text-color: @foreground;
 	location: northwest;
 	anchor: northwest;
+    width: 100%;
+    height: 100%;
 }
 
 prompt {
@@ -77,7 +80,7 @@ inputbar {
 	text-color: @foreground;
 	expand: false;
 	border-radius: 6px;
-	margin: 0px calc((100% - 640px) / 2) 0px calc((100% - 640px) / 2);
+	margin: 3% calc((100% - 640px) / 2) 3% calc((100% - 640px) / 2);
 	padding: 10px 10px 10px 10px;
 	position: north;
 	children: [ entry-wrapper ];
@@ -102,15 +105,18 @@ element {
 	text-color: @foreground;
 	orientation: vertical;
 	border-radius: 12px;
-	padding: 25px 0 25px 0;
+	padding: 40px 0 40px 0;
 }
 
 element-icon {
 	size: 72px;
+	horizontal-align: 0.5;
 	border: 0;
 }
 
 element-text {
+	font: "Hack Nerd Regular 14";
+    text-color: @foreground;
 	expand: true;
 	horizontal-align: 0.5;
 	vertical-align: 0.5;

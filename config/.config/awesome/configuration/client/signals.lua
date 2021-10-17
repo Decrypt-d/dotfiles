@@ -60,6 +60,15 @@ client.connect_signal(
 	end
 )
 
+-- Force minimized clients to unminimize
+-- Useful for games
+client.connect_signal("property::minimized", function(c)
+    if c.class == "stellaris" then
+        c.minimized = false
+    end
+end)
+
+
 client.connect_signal(
 	'focus',
 	function(c)
