@@ -111,3 +111,6 @@ super + shift + q
 #Refresh bspwm
 super + shift + r
     systemctl --user restart compton polybar
+
+super + shift + k
+    /usr/bin/xset r rate 160 15

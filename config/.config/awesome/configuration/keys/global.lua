@@ -590,6 +590,17 @@ local global_keys = awful.util.table.join(
             end
         end,
         {description = 'kill process of window', group = 'client'}
+    ), 
+    -- ##################################################
+    -- Keyboard manipulation
+    -- ##################################################
+    awful.key(
+    	{modkey, 'Shift'},
+    	'k',
+    	function()
+    	    awful.spawn('/usr/bin/xset r rate 200 17', false)
+    	end,
+        {description = 'increase the keyboard poll rate', group = 'hotkeys'}
     )
 )
 

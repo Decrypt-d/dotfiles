@@ -23,8 +23,8 @@ setopt extendedglob
 ## Vi-Mode
 ###################################################
 bindkey -v
-bindkey '^v' vi-cmd-mode
-bindkey -M viins '^v' vi-cmd-mode
+bindkey '^[l' vi-cmd-mode
+bindkey -M viins '^l' vi-cmd-mode
 
 #Yanking into clipboard
 vi-x-yank () {
@@ -41,9 +41,6 @@ vi-x-paste () {
 }
 zle -N vi-x-paste
 bindkey -M vicmd ' v' vi-x-paste
-
-#Set keyboard rate
-/usr/bin/xset r rate 180 15
 
 export LANG=en_US.utf8 
 export LC_ALL=en_US.UTF-8
@@ -129,7 +126,9 @@ modzsh()
 which wal 1>/dev/null 2>&1 && cat ~/.cache/wal/sequences 
 
 #Run neofetch
-which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) -eq 1 ] && [ "$(xdotool search --class _dropdownTerminal)" != "$(xdotool getwindowfocus)" ] && neofetch
+if [ -z $TMUX ]; then
+    which neofetch 1>/dev/null 2>&1 && [ $(pgrep kitty | wc -l) -eq 1 ] && [ "$(xdotool search --class _dropdownTerminal)" != "$(xdotool getwindowfocus)" ] && neofetch
+fi
 
 #Change pager to bat
 which bat 1>/dev/null 2>&1 && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -148,6 +147,9 @@ plugins=(git)
 which nvim >/dev/null 2>&1 && alias vim=nvim 
 which fzf >/dev/null 2>&1 && alias installpkg="pacman -Qq | fzf --preview 'pacman -Qil {}' --layout=reverse --bind 'enter:execute(pacman -Qil {} | less)'"
 which sudo >/dev/null 2>&1 && alias sudo='sudo '
+alias cds="dirs -c >/dev/null 2>&1 && pushd -0 >/dev/null 2>&1 && dirs -v"
+alias cdl="cd ~0" 
+alias cdf="cd ~\`{dirs -v | tail -n1 | cut -f1}\`"
 
 ###################################################
 ## FZF configuration
@@ -167,5 +169,5 @@ if which fzf >/dev/null 2>&1; then
     fi
 
     #Default fzf rendering options
-    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=hidden --bind=ctrl-v:abort --border --preview-window 'right:60%' --preview '([ -d {} ] && tree -aC {}) || ([ -f {} ] && bat -A --style=header,grid --color=always {})'"
+    export FZF_DEFAULT_OPTS="--height=40% --layout=reverse --info=hidden --bind=alt-l:abort --border --preview-window 'right:60%' --preview '([ -d {} ] && tree -aC {}) || ([ -f {} ] && bat -A --style=header,grid --color=always {})'"
 fi

@@ -80,7 +80,7 @@ inputbar {
 	text-color: @foreground;
 	expand: false;
 	border-radius: 6px;
-	margin: 3% calc((100% - 640px) / 2) 3% calc((100% - 640px) / 2);
+	margin: 0 calc((100% - 640px) / 2) 0 calc((100% - 640px) / 2);
 	padding: 10px 10px 10px 10px;
 	position: north;
 	children: [ entry-wrapper ];
@@ -98,6 +98,7 @@ listview {
 mainbox {
 	children: [ inputbar, listview ];
 	spacing: 25px;
+    margin: 2% 0 0 2%;
 }
 
 element {

@@ -17,7 +17,7 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 nmap <leader>w :w!<cr>
 
 " Key to enter escape mode
-inoremap <C-v> <ESC>
+inoremap <M-l> <ESC>
 
 " Leader key
 let mapleader=" "
@@ -39,7 +39,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'morhetz/gruvbox'
-    Plug 'coc-extensions/coc-omnisharp' 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'} 
     Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
@@ -48,7 +47,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'myusuf3/numbers.vim'
     Plug 'machakann/vim-highlightedyank'
     Plug 'szw/vim-maximizer'
+    Plug 'OmniSharp/omnisharp-vim'
 call plug#end()
+
+let g:OmniSharp_server_path = '/usr/bin/omnisharp'
  
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -195,6 +197,104 @@ set wrap "Wrap lineset tabstop=4
 
 " Add underscore as a keyword so that 
 set iskeyword-=_
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Command Mode Movement
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"cnoremap <tab> <c_CTRL_I>
+"cnoremap <C-i> <Home>
+cnoremap <C-a> <End>
+cnoremap <C-h> <Left>
+cnoremap <C-l> <Right>
+cnoremap <M-l> <C-c>
+cnoremap <C-j> <Down>
+cnoremap <C-k> <Up>
+cnoremap <C-c> <C-\>eDeleteToRight()<CR>
+cnoremap <C-d><C-d> <End><C-U>
+cnoremap <C-w> <C-\>eMoveFwdCmdWord("/ ")<CR>
+cnoremap <C-b> <C-\>eMoveBegCmdWord("/ ")<CR>
+cnoremap <C-e> <C-\>eMoveEndCmdWord("/ ")<CR>
+
+function! DeleteToRight()
+    let l:cmd_line = getcmdline()
+    let l:cur_pos = getcmdpos()
+    if (l:cur_pos == 1)
+        return ""
+    endif
+    return l:cmd_line[0:l:cur_pos - 2]
+endfunction
+
+function! CharInStr(char,str)
+    for l:char in a:str
+        if l:char == a:char
+            return 1
+        endif 
+    endfor
+    return 0
+endfunction
+
+function! FindNextWordPos(text, pos, terminator)
+    let l:terminator_found = 0
+    let l:pos = a:pos - 1
+    while l:pos <= len(a:text)
+        if CharInStr(a:text[l:pos], a:terminator)
+            let l:terminator_found = 1
+        endif
+        if l:terminator_found && !CharInStr(a:text[l:pos], a:terminator)
+            return l:pos + 1
+        endif
+        let l:pos += 1
+    endwhile
+    return l:pos
+endfunction
+
+function! FindEndWordPos(text, pos, terminator)
+    let l:pos = a:pos - 1
+    let l:word_found = 0
+    while l:pos < len(a:text) 
+        if !CharInStr(a:text[l:pos], a:terminator)
+            let l:word_found = 1
+        endif
+        if l:word_found && CharInStr(a:text[l:pos], a:terminator)
+            return l:pos + 1
+        endif
+        let l:pos += 1
+    endwhile
+    return l:pos + 1
+endfunction
+
+function! FindBegWordPos(text, pos, terminator)
+    let l:pos = a:pos - 2
+    while CharInStr(a:text[l:pos], a:terminator)
+        let l:pos -= 1
+    endwhile
+    let l:pos = FindEndWordPos(a:text, l:pos + 1, a:terminator) - 2
+    while l:pos > 0
+        if CharInStr(a:text[l:pos], a:terminator)
+            return l:pos + 2
+        endif
+        let l:pos -= 1
+    endwhile
+    return l:pos + 1
+endfunction
+
+function! MoveFwdCmdWord(terminator)
+    let l:cmd_line = getcmdline()
+    call setcmdpos(FindNextWordPos(l:cmd_line, getcmdpos(), a:terminator))
+    return l:cmd_line
+endfunction
+
+function! MoveBegCmdWord(terminator)
+    let l:cmd_line = getcmdline()
+    call setcmdpos(FindBegWordPos(l:cmd_line, getcmdpos(), a:terminator))
+    return l:cmd_line
+endfunction
+
+function! MoveEndCmdWord(terminator)
+    let l:cmd_line = getcmdline()
+    call setcmdpos(FindEndWordPos(l:cmd_line, getcmdpos(), a:terminator))
+    return l:cmd_line
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
@@ -398,7 +498,7 @@ function! RipgrepFzf(query, fullscreen)
     let command_fmt = 'rg --hidden --column --line-number --no-heading --color=always --smart-case -- %s $(pwd)/* || true'
     let initial_command = printf(command_fmt, shellescape(a:query))
     let reload_command = printf(command_fmt, '{q}')
-    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+    let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command, '--with-nth', '-4..', '--delimiter', '/']}
     call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 

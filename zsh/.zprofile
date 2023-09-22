@@ -17,4 +17,6 @@ export XDG_CONFIG_HOME=$HOME/.config
 
 #systemctl --user enable xorg.target
 
-startx
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    startx
+fi

@@ -18,7 +18,6 @@ local quake_properties = function()
 		opacity = 0.95,
 		floating = true,
 		skip_taskbar = true,
-		ontop = true,
 		center = true,
 		sticky = true,
 		hidden = not quake_opened,
