@@ -8,8 +8,8 @@ filetype indent on
 
 " Set to auto read when a file is changed from the outside
 set autoread
-au FocusGained,BufEnter * checktime "Triggers autoread when changing buffer 
-" :W sudo saves the file 
+au FocusGained,BufEnter * checktime "Triggers autoread when changing buffer
+" :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 
@@ -40,35 +40,52 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'morhetz/gruvbox'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'} 
+    Plug 'clangd/coc-clangd', {'do': 'yarn install --frozen-lockfile'}
     Plug 'neoclide/coc-python', {'do': 'yarn install --frozen-lockfile'}
     Plug 'neoclide/coc-java', {'do': 'yarn install --frozen-lockfile'}
     Plug 'wellle/targets.vim'
-    Plug 'myusuf3/numbers.vim'
+"    Plug 'myusuf3/numbers.vim'
     Plug 'machakann/vim-highlightedyank'
     Plug 'szw/vim-maximizer'
     Plug 'OmniSharp/omnisharp-vim'
+    Plug 'nvim-tree/nvim-tree.lua'
 call plug#end()
 
 let g:OmniSharp_server_path = '/usr/bin/omnisharp'
- 
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Display line numbers
-set number relativenumber
-
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
+set number relativenumber       " Display line numbers
+set so=7                        " Set 7 lines to the cursor - when moving vertically using j/k
+set wildmenu                    " Turn on the Wild menu
+set ruler                       " Always show current position
+set cmdheight=1                 " Height of the command bar
+set hid                         " A buffer becomes hidden when it is abandoned
+set backspace=eol,start,indent  " Configure backspace so it acts as it should act
+set whichwrap=h,<,>             " Allow keys to move to previous/next line when going left/right
+set ignorecase                  " Ignore case when searching
+set smartcase                   " When searching try to be smart about cases
+set hlsearch                    " Highlight search results
+set cursorline                  " Highlight the current cursor line number
+set incsearch                   " Makes search act like search in modern browsers
+set lazyredraw                  " Don't redraw while executing macros (good performance config)
+set magic                       " For regular expressions turn magic on
+set showmatch                   " Show matching brackets when text indicator is over them
+set mat=2                       " How many tenths of a second to blink when matching brackets
+set noerrorbells                " No annoying sound on errors
+set novisualbell                " Don't show any bell visually
+set t_vb=
+set tm=500                      " Time to wait for a key sequence to complete before timing out
+set foldcolumn=1                " Add a bit extra margin to the left
+set scrolloff=8                 " Scroll off 8 lines
+set sidescrolloff=8             " Scroll off 8 characters/spaces
 
 " Avoid garbled characters in Chinese language windows OS
-let $LANG='en' 
+let $LANG='en'
 set langmenu=en
 source $VIMRUNTIME/delmenu.vim
 source $VIMRUNTIME/menu.vim
-
-" Turn on the Wild menu
-set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -78,64 +95,16 @@ else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
-" Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=1
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap=h,<,>
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases 
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Highlight the current cursor line number
-set cursorline
-
-" Makes search act like search in modern browsers
-set incsearch 
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw 
-
-" For regular expressions turn magic on
-set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch 
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
 " Properly disable sound on errors on MacVim
 if has("gui_macvim")
     autocmd GUIEnter * set vb t_vb=
 endif
 
-" Add a bit extra margin to the left
-set foldcolumn=1
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Enable syntax highlighting
-syntax enable 
+syntax enable
 
 " Enable 256 colors palette in Gnome Terminal
 if $COLORTERM == 'gnome-terminal'
@@ -147,6 +116,10 @@ try
     highlight Normal guibg=NONE ctermbg=NONE
 "    highlight CursorLine term=bold cterm=NONE ctermbg=none  ctermfg=none gui=bold
 "    highlight CursorLineNr term=bold cterm=none ctermbg=none ctermfg=yellow gui=bold
+" Show trailing red spaces
+    highlight TrailingWhitespace ctermbg=red guibg=red
+    match TrailingWhitespace /\s\+$/
+
 
 catch
 endtry
@@ -177,26 +150,20 @@ set noswapfile
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
+set expandtab       " Use spaces instead of tabs
+set smarttab        " Be smart when using tabs by following the previous tabstops
+set shiftwidth=4    " Auto indent number of spaces
+set tabstop=4       " 1 tab == 4 spaces
+set ai              " Auto indent
+set si              " Smart indent
+set nowrap          " Wrap lineset tabstop=4
+set iskeyword-=_    " Add underscore as a keyword so that
 
-" Be smart when using tabs by following the previous tabstops
-set smarttab
-
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lineset tabstop=4
-
-" Add underscore as a keyword so that 
-set iskeyword-=_
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => File Explorer
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+noremap <leader>e :NvimTreeToggle<cr>
+noremap <leader>m :NvimTreeFocus<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command Mode Movement
@@ -251,7 +218,7 @@ endfunction
 function! FindEndWordPos(text, pos, terminator)
     let l:pos = a:pos - 1
     let l:word_found = 0
-    while l:pos < len(a:text) 
+    while l:pos < len(a:text)
         if !CharInStr(a:text[l:pos], a:terminator)
             let l:word_found = 1
         endif
@@ -328,7 +295,7 @@ map <leader>bl :bnext<cr>
 map <leader>bh :bprevious<cr>
 map <leader>be :buffer
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
   set switchbuf=useopen,usetab,newtab
   set stal=2
@@ -379,7 +346,7 @@ map <leader>s? z=
 " Allow shift + y to behave like shift + d or shift + c
 nnoremap Y y$
 
-" Centering cursor 
+" Centering cursor
 nnoremap n nzzzv
 vnoremap n nzzzv
 nnoremap N Nzzzv
@@ -491,6 +458,8 @@ noremap <leader>fm :Marks<cr>
 
 " Tags in the current project
 noremap <leader>ft :Tags<cr>
+
+let $FZF_DEFAULT_OPTS='--bind ctrl-u:half-page-up,ctrl-d:half-page-down,ctrl-r:clear-query,alt-l:abort'
 
 " RipGrep integration
 " The function below is used to delegate all search operations including the fuzzy find operations to ripgrep
